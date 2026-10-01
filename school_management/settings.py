@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',   
 ]
 
-ROOT_URLCONF = 'my_tennis_club.urls'
+ROOT_URLCONF = 'school_management.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'my_tennis_club.wsgi.application'
+WSGI_APPLICATION = 'school_management.wsgi.application'
 
 
 # Database

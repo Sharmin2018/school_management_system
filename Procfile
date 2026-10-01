@@ -1,1 +1,1 @@
-web: gunicorn my_tennis_club.wsgi:application
+web: gunicorn school_management.wsgi:application
