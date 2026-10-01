@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import public_notice_list
 from . import views
 
 urlpatterns = [
@@ -31,6 +32,11 @@ urlpatterns = [
         "delete/<int:id>/",
         views.NoticeDeleteView.as_view(),
         name="notice_delete",
+    ),
+    path(
+    "public/",
+    public_notice_list,
+    name="public_notice_list",
     ),
 
 ]

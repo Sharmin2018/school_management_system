@@ -65,5 +65,13 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context["latest_notices"] = Notice.objects.order_by("-publish_date")[:5]
 
         return context
+
+# -------------------------
+# Website Management View
+# -------------------------
+
+class WebsiteManagementView(LoginRequiredMixin, TemplateView):
+
+    template_name = "website_management.html"
     
  

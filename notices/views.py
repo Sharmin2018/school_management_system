@@ -8,6 +8,7 @@ from django.views.generic import (
     DeleteView,
     DetailView,
 )
+from django.shortcuts import render
 
 from .models import Notice
 from .forms import NoticeForm
@@ -36,7 +37,7 @@ class NoticeListView(
     context_object_name = "notices"
 
     paginate_by = 5
-
+    
     def get_queryset(self):
 
         query = self.request.GET.get("q")
@@ -142,3 +143,19 @@ class NoticeDetailView(
     permission_required = "notices.view_notice"
 
     pk_url_kwarg = "id"
+
+#-----------------------------
+def public_notice_list(request):
+
+    notices = (
+        Notice.objects
+        .order_by("-publish_date", "-created_at")
+    )
+
+    return render(
+        request,
+        "frontend/notices.html",
+        {
+            "notices": notices,
+        }
+    )

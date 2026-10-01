@@ -27,11 +27,28 @@ class NavigationMenu(models.Model):
 
 
 class WebsiteSettings(models.Model):
-    school_name = models.CharField(max_length=255)
+
+    school_name = models.CharField(
+        max_length=255
+    )
+
     logo = models.ImageField(
         upload_to="website/",
         blank=True,
         null=True
+    )
+
+    address = models.TextField(
+        blank=True
+    )
+
+    phone = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+    email = models.EmailField(
+        blank=True
     )
 
     def __str__(self):
@@ -94,6 +111,27 @@ class AboutSection(models.Model):
     )
 
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+class SchoolStatistic(models.Model):
+    title = models.CharField(max_length=100)
+
+    value = models.PositiveIntegerField(default=0)
+
+    icon = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Bootstrap Icon class, e.g. bi-people-fill"
+    )
+
+    order = models.PositiveIntegerField(default=0)
+
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
 
     def __str__(self):
         return self.title

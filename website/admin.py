@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import NavigationMenu, WebsiteSettings, HomeHero, AboutSection
+from .models import NavigationMenu, WebsiteSettings, HomeHero, SchoolStatistic, AboutSection
    
 
 
@@ -60,4 +60,28 @@ class AboutSectionAdmin(admin.ModelAdmin):
     search_fields = (
         "title",
         "short_description",
+    )
+
+@admin.register(SchoolStatistic)
+class SchoolStatisticAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "title",
+        "value",
+        "icon",
+        "order",
+        "is_active",
+    )
+
+    list_filter = (
+        "is_active",
+    )
+
+    search_fields = (
+        "title",
+    )
+
+    ordering = (
+        "order",
+        "id",
     )
