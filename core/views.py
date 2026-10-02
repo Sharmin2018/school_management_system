@@ -6,6 +6,9 @@ from teachers.models import Teacher
 from staffs.models import Staff
 from departments.models import Department
 from notices.models import Notice
+from django.shortcuts import redirect
+from website.models import WebsiteSettings, NavigationMenu
+from website.forms import WebsiteSettingsForm, NavigationMenuForm
 
 # -------------------------
 # Dashboard View
@@ -73,5 +76,78 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 class WebsiteManagementView(LoginRequiredMixin, TemplateView):
 
     template_name = "website_management.html"
-    
- 
+
+# -------------------------
+# Website General Settings
+# -------------------------
+
+class WebsiteSettingsView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+
+    template_name = "website_settings.html"
+
+    def get(self, request, *args, **kwargs):
+
+        settings = WebsiteSettings.objects.first()
+
+        form = WebsiteSettingsForm(
+            instance=settings
+        )
+
+        return self.render_to_response(
+            {
+                "form": form,
+                "settings": settings,
+            }
+        )
+
+    def post(self, request, *args, **kwargs):
+
+        settings = WebsiteSettings.objects.first()
+
+        form = WebsiteSettingsForm(
+            request.POST,
+            request.FILES,
+            instance=settings,
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "website_settings"
+            )
+
+        return self.render_to_response(
+            {
+                "form": form,
+                "settings": settings,
+            }
+        )
+
+ # -------------------------
+# Navigation Management
+# -------------------------
+
+class NavigationListView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+
+    template_name = "navigation_list.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context["menus"] = (
+            NavigationMenu.objects
+            .filter(parent__isnull=True)
+            .prefetch_related("children")
+            .order_by("order", "name")
+        )
+
+        return context
