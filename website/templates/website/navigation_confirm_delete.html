@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-1">Delete Navigation Menu</h3>
+            <p class="text-muted mb-0">
+                Confirm before deleting this menu.
+            </p>
+        </div>
+
+        <a href="{% url 'navigation_list' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Back to Navigation
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+                Are you sure you want to delete this navigation menu?
+            </div>
+
+            <div class="mb-4">
+                <strong>Menu Name:</strong>
+                {{ menu.name }}
+                <br>
+
+                <strong>URL:</strong>
+                <code>{{ menu.url }}</code>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i>
+                    Yes, Delete
+                </button>
+
+                <a href="{% url 'navigation_list' %}"
+                   class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

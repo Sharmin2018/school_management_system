@@ -58,14 +58,15 @@ class WebsiteManagementView(
     LoginRequiredMixin,
     TemplateView,
 ):
-    template_name = "website_management.html"
+    
+    template_name = "website/website_management.html"
 
 
 class WebsiteSettingsView(
     LoginRequiredMixin,
     TemplateView,
 ):
-    template_name = "website_settings.html"
+    template_name = "website/website_settings.html"
 
     def get(self, request, *args, **kwargs):
         settings = WebsiteSettings.objects.first()
@@ -99,7 +100,7 @@ class NavigationListView(
     LoginRequiredMixin,
     TemplateView,
 ):
-    template_name = "navigation_list.html"
+    template_name = "website/navigation_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,7 +119,7 @@ class NavigationCreateView(
     LoginRequiredMixin,
     TemplateView,
 ):
-    template_name = "navigation_form.html"
+    template_name = "website/navigation_form.html"
 
     def get(self, request, *args, **kwargs):
         form = NavigationMenuForm()
@@ -139,3 +140,56 @@ class NavigationCreateView(
             "form": form,
             "title": "Add Navigation Menu",
         })
+
+class NavigationUpdateView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+    template_name = "website/navigation_form.html"
+
+    def get(self, request, *args, **kwargs):
+        menu = NavigationMenu.objects.get(id=kwargs["id"])
+        form = NavigationMenuForm(instance=menu)
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Navigation Menu",
+            "menu": menu,
+        })
+
+    def post(self, request, *args, **kwargs):
+        menu = NavigationMenu.objects.get(id=kwargs["id"])
+
+        form = NavigationMenuForm(
+            request.POST,
+            instance=menu,
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("navigation_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Navigation Menu",
+            "menu": menu,
+        })
+
+class NavigationDeleteView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+    template_name = "website/navigation_confirm_delete.html"
+
+    def get(self, request, *args, **kwargs):
+        menu = NavigationMenu.objects.get(id=kwargs["id"])
+
+        return self.render_to_response({
+            "menu": menu,
+        })
+
+    def post(self, request, *args, **kwargs):
+        menu = NavigationMenu.objects.get(id=kwargs["id"])
+        menu.delete()
+
+        return redirect("navigation_list")

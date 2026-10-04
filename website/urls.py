@@ -1,15 +1,13 @@
 from django.urls import path
-from .views import home, website_management
-
-
 from . import views
 
 urlpatterns = [
-    path("", home, name="home"),
-     path(
-        "website-management/",
-        website_management,
-        name="website_management",
+
+    # Public Website
+    path(
+        "",
+        views.home,
+        name="home",
     ),
 
     # Website Management
@@ -36,5 +34,15 @@ urlpatterns = [
         views.NavigationCreateView.as_view(),
         name="navigation_add",
     ),
+    path(
+    "dashboard/website-management/navigation/edit/<int:id>/",
+    views.NavigationUpdateView.as_view(),
+    name="navigation_edit",
+    ),
 
+    path(
+    "dashboard/website-management/navigation/delete/<int:id>/",
+    views.NavigationDeleteView.as_view(),
+    name="navigation_delete",
+),
 ]

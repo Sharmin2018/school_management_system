@@ -109,13 +109,13 @@
 
                                     <td>
 
-                                        <a href="#"
+                                        <a href="{% url 'navigation_edit' menu.id %}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="bi bi-pencil"></i>
                                             Edit
                                         </a>
 
-                                        <a href="#"
+                                        <a href="{% url 'navigation_delete' menu.id %}"
                                            class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-trash"></i>
                                         </a>
@@ -173,12 +173,12 @@
 
                                         <td>
 
-                                            <a href="#"
+                                            <a href="{% url 'navigation_edit' child.id %}"
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
 
-                                            <a href="#"
+                                            <a href="{% url 'navigation_delete' child.id %}"
                                                class="btn btn-sm btn-outline-danger">
                                                 <i class="bi bi-trash"></i>
                                             </a>
