@@ -1,5 +1,11 @@
 from django.urls import path
 from . import views
+from .views import (
+    HomeHeroListView,
+    HomeHeroCreateView,
+    HomeHeroUpdateView,
+    HomeHeroDeleteView,
+)
 
 urlpatterns = [
 
@@ -8,6 +14,11 @@ urlpatterns = [
         "",
         views.home,
         name="home",
+    ),
+    path(
+    "<slug:slug>/",
+    views.WebsitePageDetailView.as_view(),
+    name="website_page_detail",
     ),
 
     # Website Management
@@ -45,4 +56,55 @@ urlpatterns = [
     views.NavigationDeleteView.as_view(),
     name="navigation_delete",
 ),
+
+    path(
+    "dashboard/website-management/pages/",
+    views.WebsitePageListView.as_view(),
+    name="website_page_list",
+    ),
+
+    path(
+    "dashboard/website-management/pages/add/",
+    views.WebsitePageCreateView.as_view(),
+    name="website_page_add",
+    ),
+
+    path(
+    "dashboard/website-management/pages/edit/<int:id>/",
+    views.WebsitePageUpdateView.as_view(),
+    name="website_page_edit",
+    ),
+
+    path(
+    "dashboard/website-management/pages/delete/<int:id>/",
+    views.WebsitePageDeleteView.as_view(),
+    name="website_page_delete",
+    ),
+
+    path(
+    "dashboard/website-management/hero/",
+    HomeHeroListView.as_view(),
+    name="hero_list",
+    ),
+    path(
+    "dashboard/website-management/hero/add/",
+    HomeHeroCreateView.as_view(),
+    name="hero_add",
+    ),
+    path(
+    "dashboard/website-management/hero/edit/<int:id>/",
+    HomeHeroUpdateView.as_view(),
+    name="hero_edit",
+    ),
+    path(
+    "dashboard/website-management/hero/delete/<int:id>/",
+    HomeHeroDeleteView.as_view(),
+    name="hero_delete",
+    ),
+    path(
+    "dashboard/website-management/about/",
+    views.AboutSectionView.as_view(),
+    name="about_management",
+    ),
+    
 ]

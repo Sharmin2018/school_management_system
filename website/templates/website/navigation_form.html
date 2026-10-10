@@ -33,6 +33,20 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="{{ form.page.id_for_label }}" class="form-label">
+                    Website Page
+                    </label>
+
+                    {{ form.page }}
+
+                    {% if form.page.errors %}
+                    <div class="text-danger">
+                    {{ form.page.errors }}
+                    </div>
+                    {% endif %}
+                    </div>
+
+                <div class="mb-3">
                     <label class="form-label">URL</label>
                     {{ form.url }}
                     {{ form.url.errors }}

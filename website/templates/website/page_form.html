@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="mb-1">{{ title }}</h3>
+            <p class="text-muted mb-0">
+                Create a new website page
+            </p>
+        </div>
+
+        <a href="{% url 'website_page_list' %}"
+           class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+            Back to Pages
+
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form method="post"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Page Title
+                    </label>
+
+                    {{ form.title }}
+
+                    {{ form.title.errors }}
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Slug
+                    </label>
+
+                    {{ form.slug }}
+
+                    {{ form.slug.errors }}
+
+                    <small class="text-muted">
+                        Example: about, mission, history
+                    </small>
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Page Content
+                    </label>
+
+                    {{ form.content }}
+
+                    {{ form.content.errors }}
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Page Image
+                    </label>
+
+                    {{ form.image }}
+
+                    {{ form.image.errors }}
+
+                </div>
+
+
+                <div class="form-check mb-4">
+
+                    {{ form.is_active }}
+
+                    <label class="form-check-label">
+                        Active
+                    </label>
+
+                </div>
+
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    <i class="bi bi-save"></i>
+                    Save Page
+
+                </button>
+
+                <a href="{% url 'website_page_list' %}"
+                   class="btn btn-outline-secondary">
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

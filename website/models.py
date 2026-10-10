@@ -4,6 +4,14 @@ from django.db import models
 class NavigationMenu(models.Model):
     name = models.CharField(max_length=100)
     url = models.CharField(max_length=255, blank=True)
+
+    page = models.ForeignKey(
+    "WebsitePage",
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name="navigation_menus"
+    )
     parent = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -132,6 +140,34 @@ class SchoolStatistic(models.Model):
 
     class Meta:
         ordering = ["order", "id"]
+
+    def __str__(self):
+        return self.title
+
+class WebsitePage(models.Model):
+    title = models.CharField(max_length=200)
+
+    slug = models.SlugField(
+        max_length=200,
+        unique=True
+    )
+
+    content = models.TextField()
+
+    image = models.ImageField(
+        upload_to="website/pages/",
+        blank=True,
+        null=True
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["title"]
 
     def __str__(self):
         return self.title

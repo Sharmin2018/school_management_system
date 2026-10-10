@@ -151,3 +151,28 @@ class NavigationListView(
         )
 
         return context
+
+class NavigationCreateView(
+    LoginRequiredMixin,
+    TemplateView,
+):
+    template_name = "navigation_form.html"
+
+    def get(self, request, *args, **kwargs):
+        form = NavigationMenuForm()
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Navigation Menu",
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = NavigationMenuForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("navigation_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Navigation Menu",
+        })

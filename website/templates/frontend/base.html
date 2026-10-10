@@ -232,11 +232,11 @@
                                         <li>
 
                                             <a
-                                                class="dropdown-item"
-                                                href="{{ child.url }}"
-                                                {% if child.open_new_tab %}
-                                                    target="_blank"
-                                                {% endif %}
+                                                <a
+                                                    class="dropdown-item"
+                                                    href="{% if child.page %}
+                                                    {% url 'website_page_detail' child.page.slug %}
+                                                    {% else %}{{ child.url }}{% endif %}"
                                             >
 
                                                 {{ child.name }}
@@ -265,9 +265,9 @@
 
                             <a
                                 class="nav-link"
-                                href="{{ menu.url }}"
+                                href="{% if menu.page %}{% url 'website_page_detail' menu.page.slug %}{% else %}{{ menu.url }}{% endif %}"
                                 {% if menu.open_new_tab %}
-                                    target="_blank"
+                                target="_blank"
                                 {% endif %}
                             >
 

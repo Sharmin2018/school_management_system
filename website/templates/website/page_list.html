@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="mb-1">Website Pages</h3>
+            <p class="text-muted mb-0">
+                Manage your website pages
+            </p>
+        </div>
+
+        <a href="{% url 'website_page_add' %}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-lg"></i>
+            Add Page
+
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+            <strong>Pages</strong>
+        </div>
+
+        <div class="card-body p-0">
+
+            {% if pages %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th width="5%">#</th>
+                                <th>Title</th>
+                                <th>Slug</th>
+                                <th width="10%">Status</th>
+                                <th width="15%">Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for page in pages %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            {{ page.title }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        <code>
+                                            /{{ page.slug }}/
+                                        </code>
+                                    </td>
+
+                                    <td>
+
+                                        {% if page.is_active %}
+
+                                            <span class="badge bg-success">
+                                                Active
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+                                                Inactive
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{% url 'website_page_edit' page.id %}"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-pencil"></i>
+                                            Edit
+
+                                        </a>
+
+                                        <a href="{% url 'website_page_delete' page.id %}"
+                                           class="btn btn-sm btn-outline-danger">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5">
+
+                    <i class="bi bi-file-earmark-text fs-1 text-muted"></i>
+
+                    <h5 class="mt-3">
+                        No website pages found
+                    </h5>
+
+                    <p class="text-muted">
+                        Create your first website page.
+                    </p>
+
+                    <a href="{% url 'website_page_add' %}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Add Page
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
