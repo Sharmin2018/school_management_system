@@ -14,6 +14,7 @@ from .forms import (
     WebsitePageForm,
     HomeHeroForm,
     AboutSectionForm,
+    SchoolStatisticForm,
 )
 
 def home(request):
@@ -414,3 +415,80 @@ class AboutSectionView(LoginRequiredMixin, TemplateView):
             "form": form,
             "about": about,
         })
+
+
+class SchoolStatisticListView(LoginRequiredMixin, TemplateView):
+    template_name = "website/statistic_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["statistics"] = SchoolStatistic.objects.all()
+        return context
+
+
+class SchoolStatisticCreateView(LoginRequiredMixin, TemplateView):
+    template_name = "website/statistic_form.html"
+
+    def get(self, request, *args, **kwargs):
+        form = SchoolStatisticForm()
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Statistic",
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = SchoolStatisticForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("statistic_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Statistic",
+        })
+
+
+class SchoolStatisticUpdateView(LoginRequiredMixin, TemplateView):
+    template_name = "website/statistic_form.html"
+
+    def get(self, request, *args, **kwargs):
+        statistic = SchoolStatistic.objects.get(id=kwargs["id"])
+        form = SchoolStatisticForm(instance=statistic)
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Statistic",
+            "statistic": statistic,
+        })
+
+    def post(self, request, *args, **kwargs):
+        statistic = SchoolStatistic.objects.get(id=kwargs["id"])
+        form = SchoolStatisticForm(
+            request.POST,
+            instance=statistic,
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("statistic_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Statistic",
+            "statistic": statistic,
+        })
+
+
+class SchoolStatisticDeleteView(LoginRequiredMixin, TemplateView):
+    template_name = "website/statistic_confirm_delete.html"
+
+    def get(self, request, *args, **kwargs):
+        statistic = SchoolStatistic.objects.get(id=kwargs["id"])
+        return self.render_to_response({"statistic": statistic})
+
+    def post(self, request, *args, **kwargs):
+        statistic = SchoolStatistic.objects.get(id=kwargs["id"])
+        statistic.delete()
+        return redirect("statistic_list")
+

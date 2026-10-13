@@ -107,4 +107,25 @@ urlpatterns = [
     name="about_management",
     ),
     
+path(
+    "dashboard/website-management/statistics/",
+    views.SchoolStatisticListView.as_view(),
+    name="statistic_list",
+),
+path(
+    "dashboard/website-management/statistics/add/",
+    views.SchoolStatisticCreateView.as_view(),
+    name="statistic_add",
+),
+path(
+    "dashboard/website-management/statistics/edit/<int:id>/",
+    views.SchoolStatisticUpdateView.as_view(),
+    name="statistic_edit",
+),
+path(
+    "dashboard/website-management/statistics/delete/<int:id>/",
+    views.SchoolStatisticDeleteView.as_view(),
+    name="statistic_delete",
+),
+
 ]

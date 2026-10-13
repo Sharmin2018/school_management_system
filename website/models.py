@@ -171,3 +171,31 @@ class WebsitePage(models.Model):
 
     def __str__(self):
         return self.title
+
+    
+class SchoolFacility(models.Model):
+    title = models.CharField(max_length=200)
+
+    description = models.TextField()
+
+    icon = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Bootstrap Icon class, e.g. bi-pc-display"
+    )
+
+    image = models.ImageField(
+        upload_to="website/facilities/",
+        blank=True,
+        null=True
+    )
+
+    order = models.PositiveIntegerField(default=0)
+
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return self.title
