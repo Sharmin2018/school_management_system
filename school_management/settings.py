@@ -39,6 +39,8 @@ INSTALLED_APPS = [
      'attendance',
      'subjects',
      "routine",
+     "rest_framework",
+     "api",
 ]
 
 MIDDLEWARE = [

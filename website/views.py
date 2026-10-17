@@ -56,6 +56,9 @@ def home(request):
     facilities = SchoolFacility.objects.filter(
         is_active=True
         ).order_by("order", "id")
+    principal_message = PrincipalMessage.objects.filter(
+    is_active=True
+    ).order_by("-updated_at").first()
 
 
     return render(
@@ -67,6 +70,7 @@ def home(request):
             "statistics": statistics,
             "facilities": facilities,
             "latest_notices": latest_notices,
+            "principal_message": principal_message,
             
         }
     )

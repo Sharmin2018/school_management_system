@@ -27,7 +27,9 @@ urlpatterns = [
     
     # Public Website
     path("", include("website.urls")),
-    
+
+    # api
+    path("api/", include("api.urls")),
 
 ]
 

@@ -320,6 +320,71 @@
 {% endif %}
 
 
+
+{% if principal_message %}
+<section class="py-5 bg-light">
+    <div class="container">
+
+        
+
+        <div class="row align-items-start g-4">
+
+            <!-- Left Side: Name, Designation and Photo -->
+            <div class="col-md-4 text-center">
+
+                
+
+                {% if principal_message.photo %}
+                    <img
+                        src="{{ principal_message.photo.url }}"
+                        alt="{{ principal_message.principal_name }}"
+                        class="img-fluid rounded shadow"
+                        style="width: 100%; max-width: 370px; height: 400px; object-fit: cover;"
+                    >
+                {% endif %}
+
+                <h4 class="fw-bold mb-2">
+                    {{ principal_message.principal_name }}
+                </h4>
+
+                <p class="text-primary fw-semibold mb-3">
+                    {{ principal_message.designation }}
+                </p>
+
+            </div>
+
+            <!-- Right Side: Principal Message -->
+            <div class="col-md-8">
+                <div class="text-center mb-5">
+            <h2 class="fw-bold">Message from the Principal</h2>
+        
+        </div>
+
+                <div class="principal-message-text">
+                    {{ principal_message.message|linebreaks }}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .principal-message-text {
+        text-align: justify;
+        line-height: 1.9;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .principal-message-text p {
+        margin-bottom: 15px;
+    }
+</style>
+{% endif %}
+
+
 {% if facilities %}
 <section class="py-5 bg-light">
     <div class="container">
