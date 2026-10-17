@@ -172,11 +172,37 @@ class WebsitePage(models.Model):
     def __str__(self):
         return self.title
 
-    
+class PrincipalMessage(models.Model):
+    principal_name = models.CharField(max_length=150)
+    designation = models.CharField(
+        max_length=100,
+        default="Principal"
+    )
+    message = models.TextField()
+    photo = models.ImageField(
+        upload_to="website/principal/",
+        blank=True,
+        null=True
+    )
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.principal_name
+
+    class Meta:
+        verbose_name = "Principal Message"
+        verbose_name_plural = "Principal Message"
+            
 class SchoolFacility(models.Model):
     title = models.CharField(max_length=200)
 
-    description = models.TextField()
+    
+    description = models.CharField(
+        max_length=300,
+        
+    )
+
 
     icon = models.CharField(
         max_length=100,

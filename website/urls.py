@@ -128,4 +128,47 @@ path(
     name="statistic_delete",
 ),
 
+
+path(
+    "dashboard/website-management/facilities/",
+    views.SchoolFacilityListView.as_view(),
+    name="facility_list",
+),
+path(
+    "dashboard/website-management/facilities/add/",
+    views.SchoolFacilityCreateView.as_view(),
+    name="facility_add",
+),
+path(
+    "dashboard/website-management/facilities/edit/<int:id>/",
+    views.SchoolFacilityUpdateView.as_view(),
+    name="facility_edit",
+),
+path(
+    "dashboard/website-management/facilities/delete/<int:id>/",
+    views.SchoolFacilityDeleteView.as_view(),
+    name="facility_delete",
+),
+
+path(
+    "dashboard/website-management/principal-message/",
+    views.PrincipalMessageListView.as_view(),
+    name="principal_message_list",
+),
+path(
+    "dashboard/website-management/principal-message/add/",
+    views.PrincipalMessageCreateView.as_view(),
+    name="principal_message_add",
+),
+path(
+    "dashboard/website-management/principal-message/edit/<int:id>/",
+    views.PrincipalMessageUpdateView.as_view(),
+    name="principal_message_edit",
+),
+path(
+    "dashboard/website-management/principal-message/delete/<int:id>/",
+    views.PrincipalMessageDeleteView.as_view(),
+    name="principal_message_delete",
+),
+
 ]

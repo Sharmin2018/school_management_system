@@ -1,0 +1,41 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+        <div class="card-body text-center py-5">
+
+            <i class="bi bi-exclamation-triangle-fill text-danger"
+               style="font-size: 3rem;"></i>
+
+            <h3 class="mt-3">Delete Principal Message</h3>
+
+            <p class="text-muted mt-3">
+                Are you sure you want to delete the message of
+                <strong>{{ object.principal_name }}</strong>?
+            </p>
+
+            <p class="text-danger">
+                This action cannot be undone.
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Yes, Delete
+                </button>
+
+                <a href="{% url 'principal_message_list' %}"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

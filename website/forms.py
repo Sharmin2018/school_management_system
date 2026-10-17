@@ -7,6 +7,8 @@ from .models import (
     HomeHero,
     AboutSection,
     SchoolStatistic,
+    SchoolFacility,
+    PrincipalMessage,
 )
 
 
@@ -291,3 +293,75 @@ class SchoolStatisticForm(forms.ModelForm):
             }),
         }
 
+
+class SchoolFacilityForm(forms.ModelForm):
+    class Meta:
+        model = SchoolFacility
+        fields = [
+            "title",
+            "description",
+            "icon",
+            "image",
+            "order",
+            "is_active",
+        ]
+
+        widgets = {
+            "title": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "description": forms.Textarea(
+                attrs={"class": "form-control","rows": 4,"maxlength": "300"}
+            ),
+            "icon": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "image": forms.ClearableFileInput(
+                attrs={"class": "form-control"}
+            ),
+            "order": forms.NumberInput(
+                attrs={"class": "form-control"}
+            ),
+            "is_active": forms.CheckboxInput(
+                attrs={"class": "form-check-input"}
+            ),
+        }
+
+class PrincipalMessageForm(forms.ModelForm):
+
+    class Meta:
+        model = PrincipalMessage
+
+        fields = [
+            "principal_name",
+            "designation",
+            "message",
+            "photo",
+            "is_active",
+        ]
+
+        widgets = {
+            "principal_name": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter principal name",
+            }),
+
+            "designation": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter designation",
+            }),
+
+            "message": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 6,
+                "placeholder": "Write principal message",
+            }),
+
+            "photo": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+            }),
+
+            "is_active": forms.CheckboxInput(attrs={
+                "class": "form-check-input",
+            }),
+        }

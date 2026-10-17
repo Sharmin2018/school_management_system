@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Delete Facility</h4>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        আপনি কি নিশ্চিত যে
+                        <strong>{{ facility.title }}</strong>
+                        Facility-টি Delete করতে চান?
+                    </p>
+
+                    <p class="text-danger small">
+                        এই কাজটি করলে Facility-টি স্থায়ীভাবে মুছে যাবে।
+                    </p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+
+                        <a href="{% url 'facility_list' %}"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

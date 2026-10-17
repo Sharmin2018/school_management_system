@@ -319,6 +319,64 @@
 
 {% endif %}
 
+
+{% if facilities %}
+<section class="py-5 bg-light">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Our Facilities & Activities</h2>
+            <p class="text-muted">
+                Explore our school facilities and student activities.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            {% for facility in facilities %}
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="card border-0 shadow-sm h-100">
+
+                    {% if facility.image %}
+                    <img
+                        src="{{ facility.image.url }}"
+                        class="card-img-top"
+                        alt="{{ facility.title }}"
+                        style="height: 220px; object-fit: cover;"
+                    >
+                    {% endif %}
+
+                    <div class="card-body text-center p-4">
+
+                        {% if facility.icon %}
+                        <div class="mb-3">
+                            <i
+                                class="bi {{ facility.icon }}"
+                                style="font-size: 42px; color: #0d6efd;"
+                            ></i>
+                        </div>
+                        {% endif %}
+
+                        <h5 class="fw-bold">
+                            {{ facility.title }}
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            {{ facility.description }}
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+{% endif %}
+
+
 {% if statistics %}
 
 <section class="py-5">

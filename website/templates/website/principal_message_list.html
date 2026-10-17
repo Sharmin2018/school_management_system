@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Principal Message</h3>
+
+        <a href="{% url 'principal_message_add' %}"
+           class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add Message
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>SL</th>
+                        <th>Photo</th>
+                        <th>Principal Name</th>
+                        <th>Designation</th>
+                        <th>Status</th>
+                        <th>Updated At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in messages %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            {% if item.photo %}
+                                <img src="{{ item.photo.url }}"
+                                     alt="{{ item.principal_name }}"
+                                     width="60"
+                                     height="60"
+                                     class="rounded"
+                                     style="object-fit: cover;">
+                            {% else %}
+                                No Photo
+                            {% endif %}
+                        </td>
+
+                        <td>{{ item.principal_name }}</td>
+                        <td>{{ item.designation }}</td>
+
+                        <td>
+                            {% if item.is_active %}
+                                <span class="badge bg-success">Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                        </td>
+
+                        <td>{{ item.updated_at|date:"d M Y, h:i A" }}</td>
+
+                        <td>
+                            <a href="{% url 'principal_message_edit' item.id %}"
+                               class="btn btn-sm btn-warning">
+                                Edit
+                            </a>
+
+                            <a href="{% url 'principal_message_delete' item.id %}"
+                               class="btn btn-sm btn-danger">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            No principal message found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

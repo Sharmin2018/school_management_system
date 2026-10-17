@@ -1,12 +1,22 @@
 from django.shortcuts import render, redirect
 from notices.models import Notice
-
-from .models import HomeHero, SchoolStatistic, AboutSection, WebsitePage
-
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import WebsiteSettings, NavigationMenu
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView,TemplateView
+from django.urls import reverse_lazy
+
+from .models import (
+        HomeHero, 
+        SchoolStatistic,
+       AboutSection, 
+       WebsitePage,
+       WebsiteSettings, 
+       NavigationMenu,
+       SchoolFacility,
+        PrincipalMessage,
+       )
+
+
 
 from .forms import (
     WebsiteSettingsForm,
@@ -15,6 +25,8 @@ from .forms import (
     HomeHeroForm,
     AboutSectionForm,
     SchoolStatisticForm,
+    SchoolFacilityForm,
+    PrincipalMessageForm,
 )
 
 def home(request):
@@ -40,6 +52,11 @@ def home(request):
         Notice.objects
         .order_by("-publish_date", "-created_at")[:6]
     )
+    
+    facilities = SchoolFacility.objects.filter(
+        is_active=True
+        ).order_by("order", "id")
+
 
     return render(
         request,
@@ -48,7 +65,9 @@ def home(request):
             "heroes": heroes,
             "about": about,
             "statistics": statistics,
+            "facilities": facilities,
             "latest_notices": latest_notices,
+            
         }
     )
 
@@ -492,3 +511,113 @@ class SchoolStatisticDeleteView(LoginRequiredMixin, TemplateView):
         statistic.delete()
         return redirect("statistic_list")
 
+
+class SchoolFacilityListView(LoginRequiredMixin, TemplateView):
+    template_name = "website/facility_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["facilities"] = SchoolFacility.objects.all()
+        return context
+
+
+class SchoolFacilityCreateView(LoginRequiredMixin, TemplateView):
+    template_name = "website/facility_form.html"
+
+    def get(self, request, *args, **kwargs):
+        form = SchoolFacilityForm()
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Facility",
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = SchoolFacilityForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect("facility_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Add Facility",
+        })
+
+
+class SchoolFacilityUpdateView(LoginRequiredMixin, TemplateView):
+    template_name = "website/facility_form.html"
+
+    def get(self, request, *args, **kwargs):
+        facility = SchoolFacility.objects.get(id=kwargs["id"])
+        form = SchoolFacilityForm(instance=facility)
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Facility",
+            "facility": facility,
+        })
+
+    def post(self, request, *args, **kwargs):
+        facility = SchoolFacility.objects.get(id=kwargs["id"])
+        form = SchoolFacilityForm(
+            request.POST,
+            request.FILES,
+            instance=facility,
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("facility_list")
+
+        return self.render_to_response({
+            "form": form,
+            "title": "Edit Facility",
+            "facility": facility,
+        })
+
+
+class SchoolFacilityDeleteView(LoginRequiredMixin, TemplateView):
+    template_name = "website/facility_confirm_delete.html"
+
+    def get(self, request, *args, **kwargs):
+        facility = SchoolFacility.objects.get(id=kwargs["id"])
+
+        return self.render_to_response({
+            "facility": facility,
+        })
+
+    def post(self, request, *args, **kwargs):
+        facility = SchoolFacility.objects.get(id=kwargs["id"])
+        facility.delete()
+
+        return redirect("facility_list")
+
+# Principal Message Management
+
+class PrincipalMessageListView(LoginRequiredMixin, ListView):
+    model = PrincipalMessage
+    template_name = "website/principal_message_list.html"
+    context_object_name = "messages"
+    ordering = ["-updated_at"]
+
+
+class PrincipalMessageCreateView(LoginRequiredMixin, CreateView):
+    model = PrincipalMessage
+    form_class = PrincipalMessageForm
+    template_name = "website/principal_message_form.html"
+    success_url = reverse_lazy("principal_message_list")
+
+
+class PrincipalMessageUpdateView(LoginRequiredMixin, UpdateView):
+    model = PrincipalMessage
+    form_class = PrincipalMessageForm
+    template_name = "website/principal_message_form.html"
+    success_url = reverse_lazy("principal_message_list")
+    pk_url_kwarg = "id"
+
+
+class PrincipalMessageDeleteView(LoginRequiredMixin, DeleteView):
+    model = PrincipalMessage
+    template_name = "website/principal_message_confirm_delete.html"
+    success_url = reverse_lazy("principal_message_list")
+    pk_url_kwarg = "id"
