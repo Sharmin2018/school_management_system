@@ -178,6 +178,29 @@ body {
     font-weight: 700;
 }
 
+
+/* Professional Dropdown Animation */
+@media (min-width: 992px) {
+    .main-navbar .dropdown-menu {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.2s ease,
+                    transform 0.2s ease,
+                    visibility 0.2s ease;
+    }
+
+    .main-navbar .dropdown:hover > .dropdown-menu,
+    .main-navbar .dropdown:focus-within > .dropdown-menu,
+    .main-navbar .dropdown.show > .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+
     </style>
 
 
@@ -331,21 +354,21 @@ body {
                              NORMAL MENU
                              ============================= -->
 
-                        <li class="nav-item">
+                            
 
-                            <a class="nav-link {% if request.path == menu.url %}active{% endif %}"
-                              
-                                href="{% if menu.page %}{% url 'website_page_detail' menu.page.slug %}{% else %}{{ menu.url }}{% endif %}"
-                                {% if menu.open_new_tab %}
-                                target="_blank"
-                                {% endif %}
-                            >
+<li class="nav-item">
+    
+    <a
+    
+class="nav-link {% if request.path == '/' and not menu.page and menu.name|lower == 'home' %}active{% elif menu.page and request.resolver_match.url_name == 'website_page_detail' and request.resolver_match.kwargs.slug == menu.page.slug %}active{% elif not menu.page and menu.url and menu.url != '/' and menu.url == request.path %}active{% endif %}"
 
-                                {{ menu.name }}
+    href="{% if menu.page %}{% url 'website_page_detail' menu.page.slug %}{% else %}{{ menu.url }}{% endif %}"
+    {% if menu.open_new_tab %}target="_blank"{% endif %}
+    >
+        {{ menu.name }}
+    </a>
+</li>
 
-                            </a>
-
-                        </li>
 
                     {% endif %}
 
